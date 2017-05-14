@@ -78,7 +78,7 @@ namespace MineSweeper
             {
                 for (int j = 0; j < line_num; j++)
                 {
-                    Button button = DesignButtonControl(i, 30*i, j*30);
+                    Button button = DesignButtonControl(i * line_num+j, 30 * i, j * 30);
                     panel.Controls.Add(button);
                 }
             }
@@ -193,6 +193,40 @@ namespace MineSweeper
             return result;
         }
 
+        /// <summary>
+        /// 当点击空白按钮时 周边随机翻出一些无雷按钮
+        /// </summary>
+        /// <param name="k"></param>
+        /// <param name="nums"></param>
+        private void ShowClickButtonArounds(int k,int nums)
+        {
+            int result = 0;
+            int line_count = Convert.ToInt32(Math.Sqrt(m_btnCount)); //获取每一行的button个数
+            int position = k % line_count; //获取这个button在这一行的那个位置
+            int line = k / line_count; //获取这个button在这一行的那个位置
+
+            for (int i = line - 2; i < line + 3; i++) //循环当前行的上下两行+本行
+            {
+                if (i < 0 || i > line_count) //如果当前行不存在 
+                    continue;
+                for (int j = position - 2; j < position + 3; j++)
+                {
+                    if (j < 0 || j > line_count) //如果当前列不存在 
+                        continue;
+                    if (nums <= 0)
+                    return;
+                    if (ButtonInformation[line_count * i + j].ButtonType != 0)
+                        {
+                            Button button = this.panel_btn.Controls[line_count * i + j] as Button;
+                            button.Text = button.Tag.ToString();
+                            button.BackColor = System.Drawing.Color.White;
+                            button.Enabled = false;
+                            nums--;
+                        }
+                    
+                }
+            }
+        }
 
         /// <summary>
         /// 按钮的点击事件
@@ -224,6 +258,25 @@ namespace MineSweeper
                         MessageBox.Show("图片不存在");
                     }
                 }
+                else if (button.Text==String.Empty)
+                {
+                    Random random=new Random();
+                    int n=3;
+                    switch (m_btnCount)
+                    {
+                        case 81:
+                            n = random.Next(3, 10);
+                            break;
+                        case 225:
+                            n = random.Next(4, 20);
+                            break;
+                        case 400:
+                            n = random.Next(4, 30);
+                            break;
+                    }
+                    ShowClickButtonArounds(Int32.Parse(button.Name.Replace("button", String.Empty)), n);
+                }
+
             }
             else if (e.Button == MouseButtons.Right) //右键
             {
