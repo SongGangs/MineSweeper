@@ -5,20 +5,24 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace MineSweeper
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private int m_btnCount = 81;
         private Dictionary<int, ButtonClass> ButtonInformation;
+        private List<int> MineList; 
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             InitalForm();
+            this.panel_btn.Enabled = false;//开始时  不能直接使用
         }
 
         private void InitalForm()
@@ -35,6 +39,7 @@ namespace MineSweeper
         /// </summary>
         private void InitialDictionary()
         {
+            MineList = new List<int>();
             ButtonInformation = new Dictionary<int, ButtonClass>();
             for (int i = 0; i < m_btnCount; i++)
             {
@@ -124,7 +129,11 @@ namespace MineSweeper
                 if (ButtonInformation[k].ButtonType == 0)
                     i--;
                 else
+                {
                     ButtonInformation[k] = new ButtonClass(0, k);
+                    MineList.Add(k); 
+                }
+                    
             }
         }
 
@@ -245,23 +254,28 @@ namespace MineSweeper
                 button.Enabled = false;
                 if (button.Text.Contains('*'))
                 {
+                    button.FlatAppearance.BorderSize = 1;
+                    button.FlatAppearance.BorderColor = Color.Crimson;
                     MessageBox.Show("对不起，游戏结束");
+                    timer1.Stop();
+                    ShowAllMineButton();
                     panel_btn.Enabled = false;
                     try
                     {
                         string filepath = System.Windows.Forms.Application.StartupPath;
-                        filepath = filepath.Substring(0,filepath.LastIndexOf("MineSweeper") + 12) + "Resources\\cry.jpg";
-                        this.button_control.BackgroundImage = Image.FromFile(filepath); 
+                        filepath = filepath.Substring(0, filepath.LastIndexOf("MineSweeper") + 12) +
+                                   "Resources\\cry.jpg";
+                        this.button_control.BackgroundImage = Image.FromFile(filepath);
                     }
                     catch (Exception)
                     {
                         MessageBox.Show("图片不存在");
                     }
                 }
-                else if (button.Text==String.Empty)
+                else if (button.Text == String.Empty)
                 {
-                    Random random=new Random();
-                    int n=3;
+                    Random random = new Random();
+                    int n = 3;
                     switch (m_btnCount)
                     {
                         case 81:
@@ -298,6 +312,17 @@ namespace MineSweeper
             }
         }
 
+        /// <summary>
+        /// 展示所有地雷信息
+        /// </summary>
+        private void ShowAllMineButton()
+        {
+            foreach (int k in MineList)
+            {
+                Button button = this.panel_btn.Controls[k] as Button;
+                button.Text = button.Tag.ToString();
+            }
+        }
         private void 初级ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_btnCount = 9*9;
@@ -336,12 +361,24 @@ namespace MineSweeper
                 string filepath = System.Windows.Forms.Application.StartupPath;
                 filepath = filepath.Substring(0, filepath.LastIndexOf("MineSweeper") + 12) + "Resources\\smile.jpg";
                 this.button_control.BackgroundImage = Image.FromFile(filepath);
+                this.label_Time.Text = "000";
+                timer1.Interval = 1000;
+                timer1.Enabled = true;
+                timer1.Start();
             }
             catch (Exception)
             {
                 MessageBox.Show("图片不存在");
             }
         }
+
+    
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.label_Time.Text = (int.Parse(this.label_Time.Text) + 1).ToString("D3");
+        }
+
+
     }
 
 }

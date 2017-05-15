@@ -1,6 +1,6 @@
 ﻿namespace MineSweeper
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.游戏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.级别ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,10 +41,11 @@
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button_control = new System.Windows.Forms.Button();
-            this.label_ClickNums = new System.Windows.Forms.Label();
+            this.label_Time = new System.Windows.Forms.Label();
             this.label_MineNums = new System.Windows.Forms.Label();
             this.panel_contain = new System.Windows.Forms.Panel();
             this.panel_btn = new System.Windows.Forms.Panel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel_contain.SuspendLayout();
@@ -78,39 +80,39 @@
             this.中级ToolStripMenuItem,
             this.高级ToolStripMenuItem});
             this.级别ToolStripMenuItem.Name = "级别ToolStripMenuItem";
-            this.级别ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.级别ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.级别ToolStripMenuItem.Text = "级别";
             // 
             // 初级ToolStripMenuItem
             // 
             this.初级ToolStripMenuItem.Name = "初级ToolStripMenuItem";
-            this.初级ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.初级ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.初级ToolStripMenuItem.Text = "初级";
             this.初级ToolStripMenuItem.Click += new System.EventHandler(this.初级ToolStripMenuItem_Click);
             // 
             // 中级ToolStripMenuItem
             // 
             this.中级ToolStripMenuItem.Name = "中级ToolStripMenuItem";
-            this.中级ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.中级ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.中级ToolStripMenuItem.Text = "中级";
             this.中级ToolStripMenuItem.Click += new System.EventHandler(this.中级ToolStripMenuItem_Click);
             // 
             // 高级ToolStripMenuItem
             // 
             this.高级ToolStripMenuItem.Name = "高级ToolStripMenuItem";
-            this.高级ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.高级ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.高级ToolStripMenuItem.Text = "高级";
             this.高级ToolStripMenuItem.Click += new System.EventHandler(this.高级ToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(178, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(111, 6);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.退出ToolStripMenuItem.Text = "退出";
             // 
             // 帮助ToolStripMenuItem
@@ -122,7 +124,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.button_control);
-            this.panel1.Controls.Add(this.label_ClickNums);
+            this.panel1.Controls.Add(this.label_Time);
             this.panel1.Controls.Add(this.label_MineNums);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 28);
@@ -145,18 +147,18 @@
             this.button_control.UseVisualStyleBackColor = false;
             this.button_control.Click += new System.EventHandler(this.button_control_Click);
             // 
-            // label_ClickNums
+            // label_Time
             // 
-            this.label_ClickNums.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label_ClickNums.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label_ClickNums.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold);
-            this.label_ClickNums.ForeColor = System.Drawing.Color.Red;
-            this.label_ClickNums.Location = new System.Drawing.Point(267, 10);
-            this.label_ClickNums.Name = "label_ClickNums";
-            this.label_ClickNums.Size = new System.Drawing.Size(65, 35);
-            this.label_ClickNums.TabIndex = 2;
-            this.label_ClickNums.Text = "099";
-            this.label_ClickNums.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Time.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label_Time.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label_Time.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold);
+            this.label_Time.ForeColor = System.Drawing.Color.Red;
+            this.label_Time.Location = new System.Drawing.Point(267, 10);
+            this.label_Time.Name = "label_Time";
+            this.label_Time.Size = new System.Drawing.Size(65, 35);
+            this.label_Time.TabIndex = 2;
+            this.label_Time.Text = "000";
+            this.label_Time.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label_MineNums
             // 
@@ -190,7 +192,11 @@
             this.panel_btn.Size = new System.Drawing.Size(362, 265);
             this.panel_btn.TabIndex = 3;
             // 
-            // Form1
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -201,7 +207,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "扫雷游戏";
             this.menuStrip1.ResumeLayout(false);
@@ -226,10 +232,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button_control;
-        private System.Windows.Forms.Label label_ClickNums;
+        private System.Windows.Forms.Label label_Time;
         private System.Windows.Forms.Label label_MineNums;
         private System.Windows.Forms.Panel panel_contain;
         private System.Windows.Forms.Panel panel_btn;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
