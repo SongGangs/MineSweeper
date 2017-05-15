@@ -171,7 +171,7 @@
             this.label_MineNums.Name = "label_MineNums";
             this.label_MineNums.Size = new System.Drawing.Size(65, 35);
             this.label_MineNums.TabIndex = 1;
-            this.label_MineNums.Text = "099";
+            this.label_MineNums.Text = "000";
             this.label_MineNums.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel_contain
